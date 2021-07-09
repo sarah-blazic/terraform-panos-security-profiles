@@ -90,7 +90,7 @@ provider "panos" {
 }
 
 module "sec_prof" {
-  source = "sarah-blazic/sec_profiles"
+  source = "sarah-blazic/sec_profiles/panos"
   version = "0.1.0"
 
   antivirus_file     = "<antivirus JSON/YAML>" # eg. antivirus.json
