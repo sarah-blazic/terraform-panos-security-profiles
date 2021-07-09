@@ -1,26 +1,28 @@
-name: Terraform CI
-
-on: 
-  pull_request:
-    branches:
-      - main
+name: 'Terraform'
+on: [push, pull_request]
 
 jobs:
-  validate:
-    name: Validate
+  terraform:
+    name: 'Terraform'
     runs-on: ubuntu-latest
     steps:
-    - name: Check out code  
-      uses: actions/checkout@v1
+    - name: Checkout
+      uses: actions/checkout@v2
 
-    - name: Run a Terraform init  
-      uses: docker://hashicorp/terraform:0.12.11
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
       with:
-        entrypoint: terraform
-        args: init
+        # terraform_version: 0.13.0
+        cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
-    - name: Run a Terraform validate    
-      uses: docker://hashicorp/terraform:0.12.11
-      with:
-        entrypoint: terraform
-        args: validate
+    - name: Terraform Format
+      id: fmt
+      run: terraform fmt -check
+
+    - name: Terraform Init
+      id: init
+      run: terraform init
+
+    - name: Terraform Validate
+      id: validate
+      run: terraform validate -no-color
