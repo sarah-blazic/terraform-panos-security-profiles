@@ -1,0 +1,39 @@
+name: Validate JSONs
+
+on: [pull_request, push]
+
+jobs:
+  verify-json-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Validate anti spyware JSON
+        uses: nhalstead/validate-json-action@0.1.3
+        with:
+          schema: ./validate/schemas/anti_spyware_schema.json
+          jsons: ./examples/files/json/spyware.json # change this to the anti-spyware JSON path
+          
+      - name: Validate antivirus JSON
+        uses: nhalstead/validate-json-action@0.1.3
+        with:
+          schema: ./validate/schemas/antivirus_schema.json
+          jsons: ./examples/files/json/antivirus.json # change this to the antivirus JSON path
+
+      - name: Validate file blocking JSON
+        uses: nhalstead/validate-json-action@0.1.3
+        with:
+          schema: ./validate/schemas/file_blocking_schema.json
+          jsons: ./files/json/file_blocking.json # change this to the file-blocking JSON path
+
+      - name: Validate vulnerability JSON
+        uses: nhalstead/validate-json-action@0.1.3
+        with:
+          schema: ./validate/schemas/vulnerability_schema.json
+          jsons: ./files/json/vulnerability.json # # change this to the vulnerability JSON path
+
+      - name: Validate wildfire analysis JSON
+        uses: nhalstead/validate-json-action@0.1.3
+        with:
+          schema: ./validate/schemas/wildfire_schema.json
+          jsons: ./files/json/wildfire.json # change this to the wildfire JSON path
