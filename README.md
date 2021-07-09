@@ -80,8 +80,129 @@ Below is an example of a YAML file to create a File-Blocking security profile.
     file_types:
     - msp
 ```
+2. **(recommended)** Add **"opa.yml"**, **"terraform.yml"**, and **"validate.yml"** to .github/workflows with changes to file paths in opa.yml and validate.yml depending on the repo.
+* **opa.yml**
+```yaml
+name: Check for JSON duplicates
+on: [push]
 
-2. Create a **"main.tf"** with the panos provider and security profile module blocks.
+jobs:
+  opa_eval:
+    runs-on: ubuntu-latest
+    name: Open Policy Agent
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Evaluate OPA Policy w/anti_spyware
+      id: opa_eval_antispyware
+      uses: migara/test-action@master
+      with:
+        tests: ./validate/opa/panos.rego
+        policy: ./examples/files/json/spyware.json # path to spyware file
+        
+    - name: Print Results antispyware
+      run: |
+       echo $opa_results | jq -r '.result[].expressions[].value'
+      env:
+       opa_results: ${{ steps.opa_eval_antispyware.outputs.opa_results }}
+
+    - name: Evaluate OPA Policy w/antivirus
+      id: opa_eval_antivirus
+      uses: migara/test-action@master
+      with:
+        tests: ./validate/opa/panos.rego
+        policy: ./files/json/antivirus.json # path to antivirus file
+        
+    - name: Print Results antivirus
+      run: |
+       echo $opa_results | jq -r '.result[].expressions[].value'
+      env:
+       opa_results: ${{ steps.opa_eval_antivirus.outputs.opa_results }}
+
+    - name: Evaluate OPA Policy w/file_blocking
+      id: opa_eval_file_blocking
+      uses: migara/test-action@master
+      with:
+        tests: ./validate/opa/panos.rego
+        policy: ./files/json/file_blocking.json # path to file-blocking file
+        
+    - name: Print Results file blocking
+      run: |
+       echo $opa_results | jq -r '.result[].expressions[].value'
+      env:
+       opa_results: ${{ steps.opa_eval_file_blocking.outputs.opa_results }}
+
+    - name: Evaluate OPA Policy w/vulnerability
+      id: opa_eval_vulnerability
+      uses: migara/test-action@master
+      with:
+        tests: ./validate/opa/panos.rego
+        policy: ./files/json/vulnerability.json # path to vulnerability file
+      
+    - name: Print Results vulnerability
+      run: |
+       echo $opa_results | jq -r '.result[].expressions[].value'
+      env:
+       opa_results: ${{ steps.opa_eval_vulnerability.outputs.opa_results }}
+
+    - name: Evaluate OPA Policy w/wildfire
+      id: opa_eval_wildfire
+      uses: migara/test-action@master
+      with:
+        tests: ./validate/opa/panos.rego
+        policy: ./files/json/wildfire.json # path to wildfire analysis file
+    
+    - name: Print Results wildfire
+      run: |
+       echo $opa_results | jq -r '.result[].expressions[].value'
+      env:
+       opa_results: ${{ steps.opa_eval_wildfire.outputs.opa_results }}
+```
+* **validate.yml**
+```yaml
+name: Validate JSONs
+
+on: [pull_request, push]
+
+jobs:
+  verify-json-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Validate anti spyware JSON
+        uses: nhalstead/validate-json-action@0.1.3
+        with:
+          schema: ./validate/schemas/anti_spyware_schema.json
+          jsons: ./examples/files/json/spyware.json # change this to the anti-spyware JSON path
+          
+      - name: Validate antivirus JSON
+        uses: nhalstead/validate-json-action@0.1.3
+        with:
+          schema: ./validate/schemas/antivirus_schema.json
+          jsons: ./examples/files/json/antivirus.json # change this to the antivirus JSON path
+
+      - name: Validate file blocking JSON
+        uses: nhalstead/validate-json-action@0.1.3
+        with:
+          schema: ./validate/schemas/file_blocking_schema.json
+          jsons: ./examples/files/json/file_blocking.json # change this to the file-blocking JSON path
+
+      - name: Validate vulnerability JSON
+        uses: nhalstead/validate-json-action@0.1.3
+        with:
+          schema: ./validate/schemas/vulnerability_schema.json
+          jsons: ./examples/files/json/vulnerability.json # # change this to the vulnerability JSON path
+
+      - name: Validate wildfire analysis JSON
+        uses: nhalstead/validate-json-action@0.1.3
+        with:
+          schema: ./validate/schemas/wildfire_schema.json
+          jsons: ./examples/files/json/wildfire.json # change this to the wildfire JSON path
+```
+
+3. Create a **"main.tf"** with the panos provider and security profile module blocks.
 ```terraform
 provider "panos" {
   hostname = "<panos_address>"
@@ -101,7 +222,7 @@ module "sec_prof" {
 }
 ```
 
-3. Run Terraform
+4. Run Terraform
 ```
 terraform init
 terraform apply
