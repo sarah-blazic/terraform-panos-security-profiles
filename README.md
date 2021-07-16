@@ -214,11 +214,13 @@ module "sec_prof" {
   source = "sarah-blazic/sec_profiles/panos"
   version = "0.1.0"
 
-  antivirus_file     = "<antivirus JSON/YAML>" # eg. antivirus.json
-  file_blocking_file = "<file-blocking JSON/YAML>"
-  wildfire_file      = "<wildfire analysis JSON/YAML>"
-  vulnerability_file = "<vulnerability JSON/YAML>"
-  spyware_file       = "<anti-spyware JSON/YAML>"
+  #for JSON files: try(jsondecode(file("<*.json>")), {})
+  #for YAML files: try(yamldecode(file("<*.yaml>")), {})
+  antivirus_file     = try(...decode(file("<antivirus JSON/YAML>")), {}) # eg. "antivirus.json"
+  file_blocking_file = try(...decode(file("<file-blocking JSON/YAML>")), {})
+  wildfire_file      = try(...decode(file("<wildfire analysis JSON/YAML>")), {})
+  vulnerability_file = try(...decode(file("<vulnerability JSON/YAML>")), {})
+  spyware_file       = try(...decode(file("<anti-spyware JSON/YAML>")), {})
 }
 ```
 
