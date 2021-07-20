@@ -17,4 +17,3 @@ module "security-profiles" {
   spyware_file       = try(jsondecode(file("./files/json/spyware.json")), {})
 }
 
-
