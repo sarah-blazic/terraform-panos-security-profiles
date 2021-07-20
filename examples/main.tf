@@ -4,8 +4,8 @@ provider "panos" {
   password = var.password
 }
 
-module "sec_prof" {
-  source = "sarah-blazic/sec_profiles/panos"
+module "security-profiles" {
+  source = "sarah-blazic/security-profiles/panos"
 
   #for JSON files: try(jsondecode(file("<*.json>")), {})
   #for YAML files: try(yamldecode(file("<*.yaml>")), {})
