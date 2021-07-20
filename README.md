@@ -80,8 +80,27 @@ Below is an example of a YAML file to create a File-Blocking security profile.
     file_types:
     - msp
 ```
-2. **(recommended)** Add **"opa.yml"**, **"terraform.yml"**, and **"validate.yml"** to .github/workflows with changes to file paths in opa.yml and validate.yml depending on the repo.
-* **opa.yml**
+2. **(recommended)** Add **tlint.yml**, **"opa.yml"**, and **"validate.yml"** to .github/workflows with changes to file paths in opa.yml and validate.yml depending on the repo.
+* **tlint.yml** : checks to see if the Terraform has errors (like illegal instance types) for Major Cloud providers (AWS/Azure/GCP), warns about deprecated syntax, unused declarations, and enforces best practices, naming conventions.
+```yaml
+name: terraform-lint
+
+on: [push, pull_request]
+
+jobs:
+  delivery:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out code
+      uses: actions/checkout@main
+    - name: Lint Terraform
+      uses: actionshub/terraform-lint@main
+
+```
+
+* **opa.yml** : checks JSON for duplicate names.
 ```yaml
 name: Check for JSON duplicates
 on: [push]
@@ -112,7 +131,7 @@ jobs:
       uses: migara/test-action@master
       with:
         tests: ./validate/opa/panos.rego
-        policy: ./files/json/antivirus.json # path to antivirus file
+        policy: ./examples/files/json/antivirus.json # path to antivirus file
         
     - name: Print Results antivirus
       run: |
@@ -125,7 +144,7 @@ jobs:
       uses: migara/test-action@master
       with:
         tests: ./validate/opa/panos.rego
-        policy: ./files/json/file_blocking.json # path to file-blocking file
+        policy: ./examples/files/json/file_blocking.json # path to file-blocking file
         
     - name: Print Results file blocking
       run: |
@@ -138,7 +157,7 @@ jobs:
       uses: migara/test-action@master
       with:
         tests: ./validate/opa/panos.rego
-        policy: ./files/json/vulnerability.json # path to vulnerability file
+        policy: ./examples/files/json/vulnerability.json # path to vulnerability file
       
     - name: Print Results vulnerability
       run: |
@@ -151,7 +170,7 @@ jobs:
       uses: migara/test-action@master
       with:
         tests: ./validate/opa/panos.rego
-        policy: ./files/json/wildfire.json # path to wildfire analysis file
+        policy: ./examples/files/json/wildfire.json # path to wildfire analysis file
     
     - name: Print Results wildfire
       run: |
@@ -159,7 +178,7 @@ jobs:
       env:
        opa_results: ${{ steps.opa_eval_wildfire.outputs.opa_results }}
 ```
-* **validate.yml**
+* **validate.yml** : checks to see if JSON validates against the provided schemas (located in the validate folder).
 ```yaml
 name: Validate JSONs
 
@@ -210,9 +229,9 @@ provider "panos" {
   password = "<admin_password>"
 }
 
-module "sec_prof" {
-  source = "sarah-blazic/sec_profiles/panos"
-  version = "0.1.0"
+module "security-profiles" {
+  source = "sarah-blazic/security-profiles/panos"
+  version = "0.1.1"
 
   #for JSON files: try(jsondecode(file("<*.json>")), {})
   #for YAML files: try(yamldecode(file("<*.yaml>")), {})
@@ -224,18 +243,9 @@ module "sec_prof" {
 }
 ```
 
-4. Run Terraform
-```
-terraform init
-terraform apply
-terraform output -json
-```
+4. Make a PR against the Repo.
 
-Cleanup
----
-```
-terraform destroy
-```
+5. Approve/Deny based on if it passed all of the tests.
 
 Inputs
 ---

@@ -14,7 +14,7 @@ jobs:
       uses: migara/test-action@master
       with:
         tests: ./validate/opa/panos.rego
-        policy: ./files/json/spyware.json
+        policy: ./examples/files/json/spyware.json
         
     - name: Print Results antispyware
       run: |
@@ -27,7 +27,7 @@ jobs:
       uses: migara/test-action@master
       with:
         tests: ./validate/opa/panos.rego
-        policy: ./files/json/antivirus.json
+        policy: ./examples/files/json/antivirus.json
         
     - name: Print Results antivirus
       run: |
@@ -40,7 +40,7 @@ jobs:
       uses: migara/test-action@master
       with:
         tests: ./validate/opa/panos.rego
-        policy: ./files/json/file_blocking.json
+        policy: ./examples/files/json/file_blocking.json
         
     - name: Print Results file blocking
       run: |
@@ -53,7 +53,7 @@ jobs:
       uses: migara/test-action@master
       with:
         tests: ./validate/opa/panos.rego
-        policy: ./files/json/vulnerability.json
+        policy: ./examples/files/json/vulnerability.json
       
     - name: Print Results vulnerability
       run: |
@@ -66,7 +66,7 @@ jobs:
       uses: migara/test-action@master
       with:
         tests: ./validate/opa/panos.rego
-        policy: ./files/json/wildfire.json
+        policy: ./examples/files/json/wildfire.json
     
     - name: Print Results wildfire
       run: |
