@@ -131,7 +131,7 @@ jobs:
       uses: migara/test-action@master
       with:
         tests: ./validate/opa/panos.rego
-        policy: ./files/json/antivirus.json # path to antivirus file
+        policy: ./examples/files/json/antivirus.json # path to antivirus file
         
     - name: Print Results antivirus
       run: |
@@ -144,7 +144,7 @@ jobs:
       uses: migara/test-action@master
       with:
         tests: ./validate/opa/panos.rego
-        policy: ./files/json/file_blocking.json # path to file-blocking file
+        policy: ./examples/files/json/file_blocking.json # path to file-blocking file
         
     - name: Print Results file blocking
       run: |
@@ -157,7 +157,7 @@ jobs:
       uses: migara/test-action@master
       with:
         tests: ./validate/opa/panos.rego
-        policy: ./files/json/vulnerability.json # path to vulnerability file
+        policy: ./examples/files/json/vulnerability.json # path to vulnerability file
       
     - name: Print Results vulnerability
       run: |
@@ -170,7 +170,7 @@ jobs:
       uses: migara/test-action@master
       with:
         tests: ./validate/opa/panos.rego
-        policy: ./files/json/wildfire.json # path to wildfire analysis file
+        policy: ./examples/files/json/wildfire.json # path to wildfire analysis file
     
     - name: Print Results wildfire
       run: |
