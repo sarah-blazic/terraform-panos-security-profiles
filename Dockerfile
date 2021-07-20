@@ -30,5 +30,6 @@ RUN \
   unzip /workspace/source/terraform.zip -d /bin; \
   rm /workspace/source/terraform ; \
   go get -u github.com/PaloAltoNetworks/terraform-panos-modules; \
-  go get -u github.com/sarah-blazic/terraform-panos-security-profiles
+  go get -u github.com/sarah-blazic/terraform-panos-security-profiles; \
+  ls -al
 
