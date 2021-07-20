@@ -5,7 +5,7 @@ provider "panos" {
 }
 
 module "sec_prof" {
-  source = "sarah-blazic/sec_profiles/panos"
+  source = "sarah-blazic/security-profiles/panos"
 
   #for JSON files: try(jsondecode(file("<*.json>")), {})
   #for YAML files: try(yamldecode(file("<*.yaml>")), {})
