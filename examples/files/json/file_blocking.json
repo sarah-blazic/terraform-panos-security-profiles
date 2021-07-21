@@ -1,84 +1,109 @@
 [
   {
-    "name": "ex1",
-    "device_group": "AWS",
+    "name": "Outbound-FB",
     "description": "ex1 file blocking security profile",
     "rule": [
       {
-        "name": "rule1",
-        "direction": "upload",
-        "applications": [
-          "any"
-        ],
-        "file_types": [
-          "msp"
-        ]
-      }
-    ]
-  },
-  {
-    "name": "ex2",
-    "device_group": "shared",
-    "rule": [
-      {
-        "name": "rule1",
-        "applications": [
-          "bonpoo",
-          "bugzilla"
-        ],
-        "file_types": [
-          "flv",
-          "pbm"
-        ],
-        "direction": "download",
-        "action": "block"
+        "name": "Alert-All",
+        "direction": "both",
+        "action": "alert"
       },
       {
-        "name": "rule2",
-        "direction": "upload",
-        "action": "continue",
+        "name": "Block",
         "file_types": [
-          "mda",
-          "dwg",
-          "xls",
+          "7z",
+          "bat",
+          "chm",
+          "class",
+          "cpl",
+          "dll",
+          "hlp",
           "hta",
-          "tar"
-        ]
-      },
-      {
-        "name": "rule3",
-        "action": "alert",
-        "direction": "download"
-      },
-      {
-        "name": "rule4",
-        "action": "continue",
-        "file_types": [
-          "zip"
+          "jar",
+          "ocx",
+          "pif",
+          "scr",
+          "torrent",
+          "vbe",
+          "wsf"
         ],
-        "applications": [
-          "any"
-        ],
-        "direction": "download"
+        "direction": "both",
+        "action": "block"
       }
     ]
   },
   {
-    "name": "ex3",
-    "device_group": "AWS",
+    "name": "Inbound-FB",
     "rule": [
       {
-        "name": "rule1",
-        "direction": "upload",
+        "name": "Alert-All",
+        "direction": "both",
+        "action": "alert"
+      },
+      {
+        "name": "Block",
         "file_types": [
-          "pbm",
-          "docm"
+          "7z",
+          "bat",
+          "chm",
+          "class",
+          "cpl",
+          "dll",
+          "hlp",
+          "hta",
+          "jar",
+          "ocx",
+          "pif",
+          "scr",
+          "torrent",
+          "vbe",
+          "wsf"
         ],
+        "direction": "both",
+        "action": "block"
+      }
+    ]
+  },
+  {
+    "name": "Internal-FB",
+    "rule": [
+      {
+        "name": "Alert-All",
+        "direction": "both",
+        "action": "alert"
+      },
+      {
+        "name": "Block",
+        "file_types": [
+          "7z",
+          "bat",
+          "chm",
+          "class",
+          "cpl",
+          "dll",
+          "hlp",
+          "hta",
+          "jar",
+          "ocx",
+          "pif",
+          "scr",
+          "torrent",
+          "vbe",
+          "wsf"
+        ],
+        "direction": "both",
+        "action": "block"
+      }
+    ]
+  },
+  {
+    "name": "Alert-Only-FB",
+    "rule": [
+      {
+        "name": "Alert-Only",
+        "direction": "both",
         "action": "alert"
       }
     ]
-  },
-  {
-    "name": "ex4"
   }
 ]

@@ -1,92 +1,313 @@
 [
   {
-    "name": "ex1",
-    "sinkhole_ipv4_address": "72.99.65.255",
-    "white_list": [
-      {
-        "name": "updates.paloaltonetworks.com",
-        "description": "pa updates"
-      },
-      {
-        "name": "www.paloaltonetworks.com"
-      }
-    ],
-    "exception": [
-      {
-        "name": "18302",
-        "block_ip_track_by": "source",
-        "block_ip_duration": 67,
-        "action": "reset-server",
-        "packet_capture": "single-packet",
-        "exempt_ips": [
-          "84.97.4.203"
-        ]
-      },
-      {
-        "name": "18003",
-        "block_ip_track_by": "source-and-destination",
-        "block_ip_duration": 3173,
-        "action": "reset-server",
-        "packet_capture": "disable",
-        "exempt_ips": [
-          "192.168.80.0/32"
-        ]
-      }
-    ]
-  },
-  {
-    "name": "ex2",
-    "packet_capture": "single-packet",
-     "botnet_list": [
+    "name": "Outbound-AS",
+    "device_group": "shared",
+    "botnet_list": [
       {
         "name": "default-paloalto-dns",
-        "action": "allow",
-        "packet_capture": "extended-capture"
+        "action": "sinkhole",
+        "packet_capture": "single-packet"
       }
     ],
-    "sinkhole_ipv6_address": "::1",
-     "dns_category": [
+    "dns_category": [
       {
-        "name": "pan-dns-sec-grayware",
+        "name": "pan-dns-sec-benign"
+      },
+      {
+        "name": "pan-dns-sec-cc",
+        "action": "sinkhole",
         "packet_capture": "single-packet"
       },
       {
-        "name": "pan-dns-sec-malware",
-        "action": "default"
+        "name": "pan-dns-sec-ddns",
+        "packet_capture": "single-packet"
       },
       {
-        "name": "pan-dns-sec-parked",
-        "packet_capture": "disable",
-        "action": "block"
+        "name": "pan-dns-sec-grayware",
+        "action":"sinkhole",
+        "packet_capture":"single-packet"
+      },
+      {
+        "name":"pan-dns-sec-malware",
+        "action":"sinkhole",
+        "packet_capture":"single-packet"
+      },
+      {
+        "name":"pan-dns-sec-parked"
+      },
+      {
+        "name":"pan-dns-sec-phishing",
+        "action":"sinkhole",
+        "packet_capture":"single-packet"
+      },
+      {
+        "name":"pan-dns-sec-proxy",
+        "action":"sinkhole",
+        "packet_capture":"single-packet"
+      },
+      {
+        "name":"pan-dns-sec-recent",
+        "packet_capture":"single-packet"
       }
     ],
-    "description": "ex2 anti spyware profile"
-  },
-  {
-    "name": "ex3",
-    "device_group": "AWS",
-    "description": "my description",
-    "sinkhole_ipv4_address": "8.8.8.8",
-    "sinkhole_ipv6_address": "::1",
+    "sinkhole_ipv4_address": "72.5.65.111",
+    "sinkhole_ipv6_address":"2600:5200::1",
     "rule":
     [
       {
-        "name": "foo",
-        "threat_name": "any",
-        "category": "adware",
-        "action": "alert",
-        "packet_capture": "extended-capture",
-        "severities": ["any"]
+        "name": "Block-Critical-High-Medium",
+        "action": "reset-both",
+        "severities": ["critical","high","medium"],
+        "packet_capture": "single-packet"
       },
       {
-        "name": "bar"
-      }
-    ],
-    "exception": [
-      {
-        "name": "18881",
-        "action": "allow"
+        "name": "Default-Low-Info",
+        "severities":["low","informational"],
+        "packet_capture":"disable"
       }
     ]
+  },
+  {
+    "name": "Inbound-AS",
+    "botnet_list": [
+      {
+        "name": "default-paloalto-dns",
+        "action": "sinkhole",
+        "packet_capture": "single-packet"
+      }
+    ],
+    "dns_category": [
+      {
+        "name": "pan-dns-sec-benign"
+      },
+      {
+        "name": "pan-dns-sec-cc",
+        "action": "sinkhole",
+        "packet_capture": "single-packet"
+      },
+      {
+        "name": "pan-dns-sec-ddns",
+        "packet_capture": "single-packet"
+      },
+      {
+        "name": "pan-dns-sec-grayware",
+        "action":"sinkhole",
+        "packet_capture":"single-packet"
+      },
+      {
+        "name":"pan-dns-sec-malware",
+        "action":"sinkhole",
+        "packet_capture":"single-packet"
+      },
+      {
+        "name":"pan-dns-sec-parked",
+        "packet_capture":"disable"
+      },
+      {
+        "name":"pan-dns-sec-phishing",
+        "action":"sinkhole",
+        "packet_capture":"single-packet"
+      },
+      {
+        "name":"pan-dns-sec-proxy",
+        "action":"sinkhole",
+        "packet_capture":"single-packet"
+      },
+      {
+        "name":"pan-dns-sec-recent",
+        "packet_capture":"single-packet"
+      }
+    ],
+    "sinkhole_ipv4_address": "72.5.65.111",
+    "sinkhole_ipv6_address":"2600:5200::1",
+    "rule":
+    [
+      {
+        "name": "Block-Critical-High-Medium",
+        "action": "reset-both",
+        "severities": ["critical","high","medium"],
+        "packet_capture": "single-packet"
+      },
+      {
+        "name": "Default-Low-Info",
+        "severities":["low","informational"],
+        "packet_capture":"disable"
+      }
+    ]
+  },
+  {
+    "name":"Internal-AS",
+    "botnet_list": [
+      {
+        "name": "default-paloalto-dns",
+        "action": "sinkhole",
+        "packet_capture": "single-packet"
+      }
+    ],
+    "dns_category": [
+      {
+        "name": "pan-dns-sec-benign"
+      },
+      {
+        "name": "pan-dns-sec-cc",
+        "action": "sinkhole",
+        "packet_capture": "single-packet"
+      },
+      {
+        "name": "pan-dns-sec-ddns",
+        "packet_capture": "single-packet"
+      },
+      {
+        "name": "pan-dns-sec-grayware",
+        "action":"sinkhole",
+        "packet_capture":"single-packet"
+      },
+      {
+        "name":"pan-dns-sec-malware",
+        "action":"sinkhole",
+        "packet_capture":"single-packet"
+      },
+      {
+        "name":"pan-dns-sec-parked"
+      },
+      {
+        "name":"pan-dns-sec-phishing",
+        "action":"sinkhole",
+        "packet_capture":"single-packet"
+      },
+      {
+        "name":"pan-dns-sec-proxy",
+        "action":"sinkhole",
+        "packet_capture":"single-packet"
+      },
+      {
+        "name":"pan-dns-sec-recent",
+        "packet_capture":"single-packet"
+      }
+    ],
+    "sinkhole_ipv4_address": "72.5.65.111",
+    "sinkhole_ipv6_address":"2600:5200::1",
+    "rule":
+    [
+      {
+        "name": "Block-Critical-High",
+        "action": "reset-both",
+        "severities": ["critical","high"],
+        "packet_capture": "single-packet"
+      },
+      {
+        "name": "Default-Medium-Low-Info",
+        "severities":["medium","low","informational"],
+        "packet_capture":"disable"
+      }
+    ]
+  },
+  {
+    "name":"Alert-Only-AS",
+    "botnet_list": [
+      {
+        "name": "default-paloalto-dns",
+        "action": "alert",
+        "packet_capture": "single-packet"
+      }
+    ],
+    "dns_category": [
+      {
+        "name": "pan-dns-sec-benign",
+        "action": "allow",
+        "packet_capture": "disable"
+      },
+      {
+        "name": "pan-dns-sec-cc",
+        "action": "allow",
+        "packet_capture": "single-packet"
+      },
+      {
+        "name": "pan-dns-sec-ddns",
+        "action": "allow",
+        "packet_capture": "single-packet"
+      },
+      {
+        "name": "pan-dns-sec-grayware",
+        "action":"allow",
+        "packet_capture":"single-packet"
+      },
+      {
+        "name":"pan-dns-sec-malware",
+        "action":"allow",
+        "packet_capture":"single-packet"
+      },
+      {
+        "name":"pan-dns-sec-parked",
+        "action":"allow",
+        "packet_capture":"single-packet"
+      },
+      {
+        "name":"pan-dns-sec-phishing",
+        "action":"allow",
+        "packet_capture":"single-packet"
+      },
+      {
+        "name":"pan-dns-sec-proxy",
+        "action":"allow",
+        "packet_capture":"single-packet"
+      },
+      {
+        "name":"pan-dns-sec-recent",
+        "action":"allow",
+        "packet_capture":"single-packet"
+      }
+    ],
+    "sinkhole_ipv4_address": "72.5.65.111",
+    "sinkhole_ipv6_address":"2600:5200::1",
+    "rule":
+    [
+      {
+        "name": "Alert-All",
+        "action": "alert"
+      }
+    ]
+  },
+  {
+    "name":"Exception-AS",
+    "description":"Used for exception cases not part of the recommended practice",
+    "botnet_list": [
+      {
+        "name": "default-paloalto-dns",
+        "action": "sinkhole",
+        "packet_capture": "single-packet"
+      }
+    ],
+    "dns_category": [
+      {
+        "name": "pan-dns-sec-benign"
+      },
+      {
+        "name": "pan-dns-sec-cc"
+      },
+      {
+        "name": "pan-dns-sec-ddns"
+      },
+      {
+        "name": "pan-dns-sec-grayware"
+      },
+      {
+        "name":"pan-dns-sec-malware"
+      },
+      {
+        "name":"pan-dns-sec-parked"
+      },
+      {
+        "name":"pan-dns-sec-phishing"
+      },
+      {
+        "name":"pan-dns-sec-proxy"
+      },
+      {
+        "name":"pan-dns-sec-recent"
+      }
+    ],
+    "sinkhole_ipv4_address": "72.5.65.111",
+    "sinkhole_ipv6_address":"2600:5200::1"
   }
 ]
