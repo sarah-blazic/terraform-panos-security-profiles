@@ -231,7 +231,7 @@ provider "panos" {
 
 module "security-profiles" {
   source = "sarah-blazic/security-profiles/panos"
-  version = "0.1.1"
+  version = "0.1.0"
 
   #for JSON files: try(jsondecode(file("<*.json>")), {})
   #for YAML files: try(yamldecode(file("<*.yaml>")), {})
