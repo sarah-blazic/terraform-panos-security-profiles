@@ -3,7 +3,7 @@ variable "hostname" {
   type        = string
 }
 
-variable "username" {
+variable "user" {
   description = "Admin username"
   type        = string
 }
