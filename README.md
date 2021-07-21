@@ -245,7 +245,7 @@ module "security-profiles" {
 
 4. Make a PR against the Repository.
 
-5. Approve/Deny based on if it passed all of the tests.
+5. Approve/Deny based on if it passed all the tests.
 
 Inputs
 ---
