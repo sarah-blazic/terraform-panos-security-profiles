@@ -235,11 +235,11 @@ module "security-profiles" {
 
   #for JSON files: try(jsondecode(file("<*.json>")), {})
   #for YAML files: try(yamldecode(file("<*.yaml>")), {})
-  antivirus_file     = try(...decode(file("<antivirus JSON/YAML>")), {}) # eg. "antivirus.json"
-  file_blocking_file = try(...decode(file("<file-blocking JSON/YAML>")), {})
-  wildfire_file      = try(...decode(file("<wildfire analysis JSON/YAML>")), {})
-  vulnerability_file = try(...decode(file("<vulnerability JSON/YAML>")), {})
-  spyware_file       = try(...decode(file("<anti-spyware JSON/YAML>")), {})
+  antivirus     = try(...decode(file("<antivirus JSON/YAML>")), {}) # eg. "antivirus.json"
+  file_blocking = try(...decode(file("<file-blocking JSON/YAML>")), {})
+  wildfire      = try(...decode(file("<wildfire analysis JSON/YAML>")), {})
+  vulnerability = try(...decode(file("<vulnerability JSON/YAML>")), {})
+  spyware       = try(...decode(file("<anti-spyware JSON/YAML>")), {})
 }
 ```
 
