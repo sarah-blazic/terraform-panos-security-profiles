@@ -21,9 +21,8 @@
 .terrascan
 # Terraform dot files
 .terraform
-.terraform.lock.hcl
 .terraformrc
-**/.terraform/*
+../../../../internProject/json_test/.terraform/providers
 .terraform.d
 *.tfstate
 *.tfstate.*
@@ -45,7 +44,3 @@ terraform.tfvars
 terraform.tfvars.json
 *.auto.tfvars
 *.auto.tfvars.json
-
-#provider
-provider.tf
-

@@ -5,61 +5,61 @@
 
 
 #antivirus
-variable "antivirus_file" {
+variable "antivirus" {
   type        = any
   description = "jsondecode and yamldecode with path to JSON/YAML file that will supply the proper parameters to create antivirus profiles."
   default     = "optional"
 
   validation {
-    condition     = var.antivirus_file == "optional" || (var.antivirus_file != {} && can(var.antivirus_file))
-    error_message = "Not a valid JSON/YAML file to read."
+    condition     = var.antivirus == "optional" || (var.antivirus != {} && can(var.antivirus))
+    error_message = "Not a valid input to read."
   }
 }
 
 #file blocking
-variable "file_blocking_file" {
+variable "file_blocking" {
   type        = any
   description = "jsondecode and yamldecode with path to JSON/YAML file that will supply the proper parameters to create antivirus profiles."
   default     = "optional"
 
   validation {
-    condition     = var.file_blocking_file == "optional" || (var.file_blocking_file != {} && can(var.file_blocking_file))
-    error_message = "Not a valid JSON/YAML file to read."
+    condition     = var.file_blocking == "optional" || (var.file_blocking != {} && can(var.file_blocking))
+    error_message = "Not a valid input to read."
   }
 }
 
 #anti-spyware
-variable "spyware_file" {
+variable "spyware" {
   type        = any
   description = "jsondecode and yamldecode with path to JSON/YAML file that will supply the proper parameters to create antivirus profiles."
   default     = "optional"
 
   validation {
-    condition     = var.spyware_file == "optional" || (var.spyware_file != {} && can(var.spyware_file))
-    error_message = "Not a valid JSON/YAML file to read."
+    condition     = var.spyware == "optional" || (var.spyware != {} && can(var.spyware))
+    error_message = "Not a valid input to read."
   }
 }
 
 #vulnerability
-variable "vulnerability_file" {
+variable "vulnerability" {
   type        = any
   description = "jsondecode and yamldecode with path to JSON/YAML file that will supply the proper parameters to create antivirus profiles."
   default     = "optional"
 
   validation {
-    condition     = var.vulnerability_file == "optional" || (var.vulnerability_file != {} && can(var.vulnerability_file))
-    error_message = "Not a valid JSON/YAML file to read."
+    condition     = var.vulnerability == "optional" || (var.vulnerability != {} && can(var.vulnerability))
+    error_message = "Not a valid input to read."
   }
 }
 
 #wildfire analysis
-variable "wildfire_file" {
+variable "wildfire" {
   type        = any
   description = "jsondecode and yamldecode with path to JSON/YAML file that will supply the proper parameters to create antivirus profiles."
   default     = "optional"
 
   validation {
-    condition     = var.wildfire_file == "optional" || (var.wildfire_file != {} && can(var.wildfire_file))
-    error_message = "Not a valid JSON/YAML file to read."
+    condition     = var.wildfire == "optional" || (var.wildfire != {} && can(var.wildfire))
+    error_message = "Not a valid input to read."
   }
 }

@@ -1,5 +1,5 @@
 resource "panos_file_blocking_security_profile" "this" {
-  for_each = var.file_blocking_file != "optional" ? { for file in var.file_blocking_file : file.name => file } : tomap({})
+  for_each = var.file_blocking != "optional" ? { for file in var.file_blocking : file.name => file } : tomap({})
 
   name         = each.key
   device_group = try(each.value.device_group, "shared")
