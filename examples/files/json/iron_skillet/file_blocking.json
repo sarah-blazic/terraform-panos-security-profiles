@@ -1,7 +1,6 @@
 [
   {
     "name": "Outbound-FB",
-    "description": "ex1 file blocking security profile",
     "rule": [
       {
         "name": "Alert-All",

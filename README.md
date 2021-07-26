@@ -231,7 +231,7 @@ provider "panos" {
 
 module "security-profiles" {
   source = "sarah-blazic/security-profiles/panos"
-  version = "0.1.1"
+  version = "0.1.2"
 
   #for JSON files: try(jsondecode(file("<*.json>")), {})
   #for YAML files: try(yamldecode(file("<*.yaml>")), {})
@@ -261,12 +261,48 @@ Inputs
 ---
 Name | Description | Type | Default | Required
 -----|-----|-----|-----|-----
-antivirus_file | (optional) Creates antivirus security profiles. |`string`|n/a|no
-file_blocking_file | (optional) Creates file-blocking security profiles. | `string` | n/a | no
-vulnerability_file | (optional) Creates vulnerability security profiles. |`string`|n/a|no
-wildfire_file | (optional) Creates wildfire analysis security profiles. |`string`|n/a|no
+antivirus | (optional) Creates antivirus security profiles. |`any`|n/a|no
+spyware | (optional)  | `any`| n/a | no
+file_blocking | (optional) Creates file-blocking security profiles. | `any` | n/a | no
+vulnerability_file | (optional) List of the Vulnerability Profile objects.<br><br>- `name`: (required) Identifier of the Vulnerability security profile.<br>- `device_group`: (optional) The device group location (default: `shared`).<br>- `description`: (optional) The description of the vulnerability profile.<br><br>- `rule`: (optional) List of objects following the rule specifications.<br>     - `name`: (required) Rule name.<br>     - `threat_name`: (optional) Threat name.<br>     - `cves`: (optional) List of CVEs (default: `any`).<br>     - `host`: (optional) The host. Valid values are `any`, `client`, or `server` (default: `any`).<br>     - `vendor_ids`: (optional) List of vendor IDs (default: `any`).<br>     - `category`: (optional) Category for the file-blocking policy (default: `any`).<br>     - `severities`: (optional) List of severities to include in policy. Valid values are `any`, `critical`, `high`, `medium`, `low`, or/and `informational` (default: `any`).<br>     - `packet_capture`: (optional) Packet capture setting. Valid values are `disable`, `single-packet`, or `extended-capture` (default: `disable`).<br>     - `action`: (optional) Exception action. Valid values are `default`, `allow`, `alert`, `drop`, `reset-client`, `reset-server`, `reset-both`, or `block-ip` (default: `default`).<br>     - `block_ip_track_by`: (required if `action` = `block-ip`) The track setting. Valid values are `source` or `source-and-destination`.<br>     - `block_ip_duration`: (required if `action` = `block-ip`) The duration of the block. Valid values are integers.<br><br>- `exception`: (optional) List of objects following the exceptions specifications.<br>     - `name`: (required) Threat name for the exception. You can use the `panos_predefined_threat` data source to discover the various names available to use.<br>     - `packet_capture`: (optional) Packet capture setting. Valid values are `disable`, `single-packet`, or `extended-capture` (default: `disable`).<br>     - `action`: (optional) Exception action. Valid values are `default`, `allow`, `alert`, `drop`, `reset-client`, `reset-server`, `reset-both`, or `block-ip` (default: `default`).<br>     - `block_ip_track_by`: (required if `action` = `block-ip`) The track setting. Valid values are `source` or `source-and-destination`.<br>     - `block_ip_duration`: (required if `action` = `block-ip`) The duration of the block. Valid values are integers.<br>     - `exempt_ips`: (optional) List of exempt IPs.<br>     - `time_interval`: (optional) Time interval integer.<br>     - `time_threshold`: (optional) Time threshold integer.<br>     - `time_track_by`: (optional) Time track by setting. Valid values are `source`, `destination`, or `source-and-destination`.<br><br>     Example:<br><code><br>[<br>    {<br>      name = "Outbound-VP"<br>      rule = [<br>            {<br>              name = "Block-Critical-High-Medium"<br>              action = "reset-both"<br>              vendor_ids = ["any"]<br>              severities = ["critical","high","medium"]<br>              cves = ["any"]<br>              threat_name = "any"<br>              host = "any"<br>              category = "any"<br>              packet_capture = "single-packet"<br>            },<br>            {<br>              name = "Default-Low-Info"<br>              action = "default"<br>              vendor_ids = ["any"]<br>              severities = ["low","informational"]<br>              cves = ["any"]<br>              threat_name = "any"<br>              host = "any"<br>              category = "any"<br>              packet_capture = "disable"<br>            }<br>      ]<br>    }<br>]<br></code>
 
-* each input will create a resource based off of the JSON/YAML file given
+  ```
+  EOF |`any`|n/a|no
+wildfire_file | (optional) <<-EOF
+  List of the Wildfire Analysis Profile objects.
+  - `name`: (required) Identifier of the Wildfire Analysis security profile.
+  - `device_group`: (optional) The device group location (default: `shared`).
+  - `description`: (optional) The description of the Wildfire Analysis profile.
+  - `rule`: (optional) List of objects following the rule specifications.
+    - `name`: (required) Rule name.
+    - `applications`: (optional) List of applications (default: `any`).
+    - `file_types`: (optional) List of file types (default: `any`).
+    - `direction`: (optional) Direction for the wildfire analysis policy. Valid values are `both`, `upload`, or `download` (default: `both`).
+    - `analysis`: (optional) Analysis setting. Valid values are `public-cloud` or `private-cloud` (default: `public-cloud`).
+
+  Example:
+  ```
+  [
+    {
+      "name": "Outbound-WF",
+      "rule": [
+        {
+          "name": "Forward-All",
+          "applications": [
+            "any"
+          ],
+          "file_types": [
+            "any"
+          ],
+          "direction": "both",
+          "analysis": "public-cloud"
+        }
+      ]
+    }
+  ]
+  ```
+  EOF |`any`|n/a|no
+
 
 Outputs
 ---
