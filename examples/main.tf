@@ -14,6 +14,6 @@ module "security-profiles" {
   file_blocking = try(jsondecode(file("./files/json/file_blocking.json")), {})
   wildfire      = try(jsondecode(file("./files/json/wildfire.json")), {})
   vulnerability = try(jsondecode(file("./files/json/vulnerability.json")), {})
-  spyware      = try(jsondecode(file("./files/json/spyware.json")), {})
+  spyware       = try(jsondecode(file("./files/json/spyware.json")), {})
 }
 
