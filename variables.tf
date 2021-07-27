@@ -41,12 +41,12 @@ variable "antivirus" {
           wildfire_action = "alert"
           machine_learning = "alert"
         }
-      ],
+      ]
       machine_learning_model = [
         {
           model = "Windows Executables"
           action = "enable"
-        },
+        }
         {
           model = "PowerShell Script 1"
           action = "enable"
@@ -83,25 +83,19 @@ variable "file_blocking" {
   ```
   [
     {
-      "name": "Outbound-FB",
-      "rule": [
+      name = "Outbound-FB"
+      rule = [
         {
-          "name": "Alert-All",
-          "applications": [
-            "any"
-          ],
-          "file_types": [
-            "any"
-          ],
-          "direction": "both",
-          "action": "alert"
-        },
+          name = "Alert-All"
+          applications = ["any"]
+          file_types = ["any"]
+          direction = "both"
+          action = "alert"
+        }
         {
-          "name": "Block",
-          "applications": [
-            "any"
-          ],
-          "file_types": [
+          name = "Block"
+          applications = ["any"]
+          file_types = [
             "7z",
             "bat",
             "chm",
@@ -117,9 +111,9 @@ variable "file_blocking" {
             "torrent",
             "vbe",
             "wsf"
-          ],
-          "direction": "both",
-          "action": "block"
+          ]
+          direction = "both"
+          action = "block"
         }
       ]
     }
@@ -187,17 +181,17 @@ variable "spyware" {
           action = "sinkhole"
           packet_capture = "single-packet"
         }
-      ],
+      ]
       dns_category = [
         {
           name = "pan-dns-sec-benign"
-        },
+        }
         {
           name = "pan-dns-sec-cc"
           action = "sinkhole"
           packet_capture = "single-packet"
         }
-      ],
+      ]
       sinkhole_ipv4_address = "72.5.65.111"
       sinkhole_ipv6_address = "2600:5200::1"
       rule =
@@ -207,7 +201,7 @@ variable "spyware" {
           action = "reset-both"
           severities = ["critical","high","medium"]
           packet_capture = "single-packet"
-        },
+        }
         {
           name = "Default-Low-Info"
           severities = ["low","informational"]
@@ -261,44 +255,29 @@ variable "vulnerability" {
   ```
   [
     {
-      "name": "Outbound-VP",
-      "rule": [
+      name = "Outbound-VP"
+      rule = [
         {
-          "name": "Block-Critical-High-Medium",
-          "action": "reset-both",
-          "vendor_ids": [
-            "any"
-          ],
-          "severities": [
-            "critical",
-            "high",
-            "medium"
-          ],
-          "cves": [
-            "any"
-          ],
-          "threat_name": "any",
-          "host": "any",
-          "category": "any",
-          "packet_capture": "single-packet"
-        },
+          name = "Block-Critical-High-Medium"
+          action = "reset-both"
+          vendor_ids = ["any"]
+          severities = ["critical","high","medium"]
+          cves = ["any"]
+          threat_name = "any"
+          host = "any"
+          category = "any"
+          packet_capture = "single-packet"
+        }
         {
-          "name": "Default-Low-Info",
-          "action": "default",
-          "vendor_ids": [
-            "any"
-          ],
-          "severities": [
-            "low",
-            "informational"
-          ],
-          "cves": [
-            "any"
-          ],
-          "threat_name": "any",
-          "host": "any",
-          "category": "any",
-          "packet_capture": "disable"
+          name = "Default-Low-Info"
+          action = "default"
+          vendor_ids = ["any"]
+          severities = ["low","informational"]
+          cves = ["any"]
+          threat_name = "any"
+          host = "any"
+          category = "any"
+          packet_capture = "disable"
         }
       ]
     }
@@ -332,18 +311,14 @@ variable "wildfire" {
   ```
   [
     {
-      "name": "Outbound-WF",
-      "rule": [
+      name = "Outbound-WF"
+      rule = [
         {
-          "name": "Forward-All",
-          "applications": [
-            "any"
-          ],
-          "file_types": [
-            "any"
-          ],
-          "direction": "both",
-          "analysis": "public-cloud"
+          name = "Forward-All"
+          applications = ["any"]
+          file_types = ["any"]
+          direction = "both"
+          analysis = "public-cloud"
         }
       ]
     }
